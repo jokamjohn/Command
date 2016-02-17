@@ -68,6 +68,8 @@ class NewCommand extends Command
             ->extract($zipFile, $directory)
             ->cleanUp($zipFile);
 
+        $this->installDependencies($directory);
+
         $output->writeln("<comment>Application ready!!</comment>");
     }
 
@@ -140,6 +142,17 @@ class NewCommand extends Command
         @unlink($zipFile);
 
         return $this;
+    }
+
+    /**Install laravel dependencies.
+     *
+     * @param $directory
+     */
+    private function installDependencies($directory)
+    {
+        chdir($directory);
+
+        exec('composer install');
     }
 
 }
