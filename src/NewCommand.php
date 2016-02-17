@@ -63,8 +63,11 @@ class NewCommand extends Command
 
         $zipFile = $this->makeFileName();
 
+        $output->writeln("<info>Crafting Application .....</info>");
+
         $this->download($zipFile)
-            ->extract($zipFile, $directory);
+            ->extract($zipFile, $directory)
+            ->cleanUp($zipFile);
 
         $output->writeln("<comment>Application ready!!</comment>");
     }
@@ -121,6 +124,21 @@ class NewCommand extends Command
         $archive->extractTo($directory);
 
         $archive->close();
+
+        return $this;
+    }
+
+    /**Check file permissions and delete the file.
+     * Suppress any warnings.
+     *
+     * @param $zipFile
+     * @return $this
+     */
+    private function cleanUp($zipFile)
+    {
+        @chmod($zipFile, 0777);
+
+        @unlink($zipFile);
 
         return $this;
     }
