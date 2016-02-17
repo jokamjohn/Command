@@ -12,6 +12,7 @@ namespace Kagga;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class HelloCommand extends Command
@@ -23,7 +24,8 @@ class HelloCommand extends Command
     {
         $this->setName('hello')
             ->setDescription('Offer a greeting to a given person')
-            ->addArgument('name', InputArgument::REQUIRED, 'Your name');
+            ->addArgument('name', InputArgument::REQUIRED, 'Your name')
+            ->addOption('greeting', null, InputOption::VALUE_OPTIONAL, 'Different greeting', 'Hello');
     }
 
     /**Execute the Command
@@ -33,11 +35,8 @@ class HelloCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $name = $input->getArgument('name');
 
-        $message = 'Hello ' . $name;
-
-
+        $message = sprintf('%s, %s', $input->getOption('greeting'), $input->getArgument('name'));
 
         $output->writeln("<info>{$message}</info>");
     }
