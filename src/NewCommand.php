@@ -34,7 +34,6 @@ class NewCommand extends Command
         parent::__construct();
     }
 
-
     /**
      * Set up the Command
      */
